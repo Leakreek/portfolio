@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Michał Nowak</title>
+  <meta name="description" content="Michał Nowak. IT, infrastruktura, sieci, bezpieczeństwo. Łódź.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0c0d;
+      --surface: #131517;
+      --line: #23262a;
+      --text: #e9e7e3;
+      --muted: #8b9098;
+      --dim: #5d626a;
+      --accent: #7ee2a8;
+      --sans: "Geist", system-ui, sans-serif;
+      --mono: "Geist Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      padding: 48px 20px;
+    }
+
+    @media (min-width: 820px) and (min-height: 720px) {
+      body { height: 100dvh; overflow: hidden; padding: 0 24px; }
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    main { width: 100%; max-width: 760px; }
+
+    .prompt {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--dim);
+      margin-bottom: 14px;
+    }
+    .prompt span { color: var(--accent); }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 52px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      min-height: 1.1em;
+    }
+    .caret {
+      display: inline-block;
+      width: 0.08em;
+      height: 0.9em;
+      margin-left: 4px;
+      background: var(--accent);
+      vertical-align: -0.08em;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .role {
+      margin-top: 10px;
+      font-size: 17px;
+      color: var(--muted);
+    }
+    .role b { color: var(--text); font-weight: 500; }
+
+    .bio {
+      margin-top: 22px;
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 22px;
+      margin-top: 22px;
+      font-size: 14px;
+    }
+    .links a {
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 2px;
+      transition: border-color .2s, color .2s;
+    }
+    .links a:hover { color: var(--accent); border-color: var(--accent); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 44px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    .label {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      margin-bottom: 16px;
+    }
+
+    .item { margin-bottom: 16px; }
+    .item:last-child { margin-bottom: 0; }
+    .item-title {
+      font-size: 15px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    a.item-title:hover { color: var(--accent); }
+    a.item-title::after {
+      content: "↗";
+      font-size: 12px;
+      color: var(--dim);
+      transition: transform .2s, color .2s;
+    }
+    a.item-title:hover::after { color: var(--accent); transform: translate(2px, -2px); }
+    .item-desc { font-size: 13.5px; color: var(--muted); }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid rgba(126, 226, 168, .25);
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin-left: 2px;
+    }
+
+    .stack {
+      margin-top: 40px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+              mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    }
+    .track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
+    .stack { cursor: grab; user-select: none; -webkit-user-select: none; touch-action: pan-y; }
+    .stack.dragging { cursor: grabbing; }
+    .track ul { display: flex; list-style: none; }
+    .track li {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      padding: 6px 14px;
+      margin-right: 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      white-space: nowrap;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .caret { animation: none; }
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+    <p class="prompt"><span>michal@lab</span>:~$ cat README.md</p>
+    <h1><span id="name"></span><span class="caret"></span></h1>
+    <p class="role"><b>IT</b> · Infrastruktura · Sieci · Bezpieczeństwo</p>
+
+    <p class="bio">
+      Pracuję w dziale IT banku spółdzielczego, gdzie zajmuję się utrzymaniem systemów, sieci
+      i ich zabezpieczeniem. Poza pracą rozwijam własny homelab na Proxmoxie, w którym testuję
+      segmentację sieci, zdalny dostęp i dobre praktyki bezpieczeństwa. Najbardziej interesuje mnie
+      bezpieczeństwo infrastruktury i w tym kierunku chcę się rozwijać.
+      W ramach pracy inżynierskiej tworzę w Pythonie aplikację do analizy danych z wyścigów Formuły 1.
+    </p>
+
+    <nav class="links">
+      <a href="mailto:work.michal.nowak@gmail.com">Email</a>
+      <a href="https://github.com/Leakreek" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/michal-mn" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="MichalNowakCV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+
+    <section class="grid">
+      <div>
+        <p class="label">Doświadczenie</p>
+        <div class="item">
+          <p class="item-title">Referent, Zespół Informatyki</p>
+          <p class="item-desc">Bank spółdzielczy, Łódź · systemy, sieć, uprawnienia, backup</p>
+        </div>
+        <div class="item">
+          <p class="item-title">Informatyka Stosowana, UŁ</p>
+          <p class="item-desc">Studia inżynierskie <span class="tag">2023 – 2027</span></p>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">Projekty</p>
+        <div class="item">
+          <a class="item-title" href="https://github.com/Leakreek" target="_blank" rel="noopener">RaceScanner</a>
+          <p class="item-desc">Praca inżynierska: analiza telemetrii, tempa i strategii F1 · Python, pandas, Plotly</p>
+        </div>
+        <div class="item">
+          <a class="item-title" href="https://github.com/Leakreek" target="_blank" rel="noopener">Homelab</a>
+          <p class="item-desc">Domowe środowisko testowe: wirtualizacja na Proxmoxie, segmentacja sieci, zdalny dostęp przez VPN</p>
+        </div>
+        <div class="item">
+          <a class="item-title" href="https://github.com/Leakreek/CorpTalk" target="_blank" rel="noopener">CorpTalk</a>
+          <p class="item-desc">Firmowy komunikator · Django, Docker</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="stack" aria-label="Technologie">
+      <div class="track">
+        <ul>
+          <li>Proxmox VE</li><li>Debian</li><li>Linux</li><li>Active Directory</li>
+          <li>Zyxel</li><li>VLAN</li><li>VPN</li><li>Tailscale</li><li>Python</li>
+          <li>pandas</li><li>Plotly</li><li>SQL</li><li>Git</li><li>HTML/CSS</li>
+        </ul>
+        <ul aria-hidden="true">
+          <li>Proxmox VE</li><li>Debian</li><li>Linux</li><li>Active Directory</li>
+          <li>Zyxel</li><li>VLAN</li><li>VPN</li><li>Tailscale</li><li>Python</li>
+          <li>pandas</li><li>Plotly</li><li>SQL</li><li>Git</li><li>HTML/CSS</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const full = "Michał Nowak";
+    const el = document.getElementById("name");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      el.textContent = full;
+    } else {
+      let i = 0;
+      const tick = () => {
+        el.textContent = full.slice(0, ++i);
+        if (i < full.length) setTimeout(tick, 90 + Math.random() * 70);
+      };
+      setTimeout(tick, 400);
+    }
+
+    (() => {
+      const stack = document.querySelector(".stack");
+      const track = stack.querySelector(".track");
+      const first = track.querySelector("ul");
+      const SPEED = reduce ? 0 : 28;
+      let half = first.offsetWidth;
+      let x = 0, vel = 0, hover = false, drag = false;
+      let lastX = 0, lastT = 0, prev = performance.now();
+
+      const wrap = () => { x = ((x % half) + half) % half; };
+      const draw = () => { track.style.transform = `translate3d(${-x}px,0,0)`; };
+
+      function frame(now) {
+        const dt = Math.min((now - prev) / 1000, 0.05);
+        prev = now;
+        if (!drag) {
+          if (Math.abs(vel) > 5) { x += vel * dt; vel *= Math.pow(0.04, dt); }
+          else { vel = 0; if (!hover) x += SPEED * dt; }
+        }
+        wrap(); draw();
+        requestAnimationFrame(frame);
+      }
+
+      stack.addEventListener("pointerenter", () => hover = true);
+      stack.addEventListener("pointerleave", () => hover = false);
+
+      stack.addEventListener("pointerdown", e => {
+        drag = true; vel = 0;
+        lastX = e.clientX; lastT = performance.now();
+        stack.setPointerCapture(e.pointerId);
+        stack.classList.add("dragging");
+      });
+      stack.addEventListener("pointermove", e => {
+        if (!drag) return;
+        const now = performance.now(), dx = e.clientX - lastX;
+        x -= dx;
+        const dt = (now - lastT) / 1000;
+        if (dt > 0) vel = -dx / dt;
+        lastX = e.clientX; lastT = now;
+      });
+      const end = e => {
+        if (!drag) return;
+        drag = false;
+        if (performance.now() - lastT > 80) vel = 0;
+        stack.classList.remove("dragging");
+        if (e.pointerType !== "mouse") hover = false;
+      };
+      stack.addEventListener("pointerup", end);
+      stack.addEventListener("pointercancel", end);
+
+      stack.addEventListener("wheel", e => {
+        const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (!d) return;
+        e.preventDefault();
+        x += d; vel = 0;
+      }, { passive: false });
+
+      window.addEventListener("resize", () => { half = first.offsetWidth; });
+      document.fonts && document.fonts.ready.then(() => { half = first.offsetWidth; });
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
